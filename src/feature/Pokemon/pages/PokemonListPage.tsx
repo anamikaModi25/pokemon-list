@@ -14,7 +14,7 @@ export function PokemonListPage() {
   return (
     <div>
       <h1>Pokemon List</h1>
-      <ul>
+      <ul aria-label="pokemon list">
         {data?.results.map((pokemon) => (
           <li key={pokemon.name}>{pokemon.name}</li>
         ))}
