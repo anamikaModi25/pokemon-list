@@ -28,6 +28,18 @@ test("renders pokemon detail page with data", async () => {
 });
 
 test("shows loading state while fetching pokemon detail", async () => {
+  server.use(
+    http.get("https://pokeapi.co/api/v2/pokemon/:name", async () => {
+      await new Promise((res) => setTimeout(res, 200));
+      return HttpResponse.json({
+        name: "pikachu",
+        height: 4,
+        weight: 60,
+        types: [{ type: { name: "electric" } }],
+      });
+    }),
+  );
+
   renderWithClient();
 
   // Immediately check for loading state

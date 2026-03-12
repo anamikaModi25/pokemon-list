@@ -3,8 +3,15 @@ import type {
   PokemonDetail,
 } from "../types/pokemon.types";
 
-export async function fetchPokemonList(): Promise<PokemonListResponse> {
-  const response = await fetch("https://pokeapi.co/api/v2/pokemon");
+export async function fetchPokemonList(
+  page: number,
+): Promise<PokemonListResponse> {
+  const limit = 20;
+  const offset = page * limit;
+
+  const response = await fetch(
+    `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`,
+  );
 
   if (!response.ok) {
     throw new Error("Failed to fetch pokemon");
