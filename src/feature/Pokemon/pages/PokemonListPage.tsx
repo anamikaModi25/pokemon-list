@@ -8,7 +8,7 @@ export function PokemonListPage() {
   }
 
   if (error) {
-    return <div>Error loading pokemon</div>;
+    return <div role="alert">Error loading pokemon</div>;
   }
 
   return (
