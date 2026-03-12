@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PokemonListPage } from "./pages/PokemonListPage";
 import { http, HttpResponse } from "msw";
 import { server } from "@/test/server";
+import { MemoryRouter } from "react-router-dom";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { routes } from "@/router"; // we’ll adjust this if needed
@@ -14,7 +15,9 @@ function renderWithClient(ui: React.ReactElement) {
     },
   });
   return render(
-    <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>,
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter>{ui}</MemoryRouter>
+    </QueryClientProvider>,
   );
 }
 

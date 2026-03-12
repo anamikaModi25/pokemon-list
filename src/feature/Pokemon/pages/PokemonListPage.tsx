@@ -1,4 +1,5 @@
 import { usePokemonList } from "../hooks/usePokemonList";
+import { Link } from "react-router-dom";
 
 export function PokemonListPage() {
   const { data, isLoading, error } = usePokemonList();
@@ -16,7 +17,9 @@ export function PokemonListPage() {
       <h1>Pokemon List</h1>
       <ul aria-label="pokemon list">
         {data?.results.map((pokemon) => (
-          <li key={pokemon.name}>{pokemon.name}</li>
+          <li key={pokemon.name}>
+            <Link to={`/pokemon/${pokemon.name}`}>{pokemon.name}</Link>
+          </li>
         ))}
       </ul>
     </div>
