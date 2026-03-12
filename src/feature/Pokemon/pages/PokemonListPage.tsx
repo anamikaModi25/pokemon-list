@@ -4,7 +4,7 @@ export function PokemonListPage() {
   const { data, isLoading, error } = usePokemonList();
   console.log(data, isLoading, error);
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div role="status">Loading...</div>;
   }
 
   if (error) {
