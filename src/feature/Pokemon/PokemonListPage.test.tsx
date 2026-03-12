@@ -70,3 +70,22 @@ test("navigates to pokemon detail page when clicked", async () => {
 
   expect(router.state.location.pathname).toBe("/pokemon/pikachu");
 });
+
+test("filters pokemon by name", async () => {
+  const user = userEvent.setup();
+
+  renderWithClient(<PokemonListPage />);
+
+  // Wait for initial list
+  await screen.findByText("pikachu");
+
+  // Find filter input
+  const input = screen.getByRole("textbox");
+
+  // Type into input
+  await user.type(input, "pika");
+
+  // Only pikachu should remain
+  expect(screen.getByText("pikachu")).toBeInTheDocument();
+  expect(screen.queryByText("bulbasaur")).not.toBeInTheDocument();
+});
