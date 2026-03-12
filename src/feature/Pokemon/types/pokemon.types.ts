@@ -4,3 +4,14 @@ export interface PokemonListResponse {
     url: string;
   }[];
 }
+
+export interface PokemonDetail {
+  name: string;
+  height: number;
+  weight: number;
+  types: {
+    type: {
+      name: string;
+    };
+  }[];
+}
