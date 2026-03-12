@@ -89,3 +89,24 @@ test("filters pokemon by name", async () => {
   expect(screen.getByText("pikachu")).toBeInTheDocument();
   expect(screen.queryByText("bulbasaur")).not.toBeInTheDocument();
 });
+
+test("shows empty state when no pokemon match filter", async () => {
+  const user = userEvent.setup();
+
+  renderWithClient(<PokemonListPage />);
+
+  // Wait for initial data
+  await screen.findByText("pikachu");
+
+  const input = screen.getByRole("textbox");
+
+  // Type something that doesn't match
+  await user.clear(input);
+  await user.type(input, "xyz");
+
+  // No list items should remain
+  expect(screen.queryAllByRole("listitem")).toHaveLength(0);
+
+  // Empty state message should appear
+  expect(screen.getByText(/no pokemon found/i)).toBeInTheDocument();
+});
