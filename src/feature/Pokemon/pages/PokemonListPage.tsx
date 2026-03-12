@@ -32,14 +32,17 @@ export function PokemonListPage() {
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
       />
-
-      <ul aria-label="pokemon list">
-        {filteredPokemon.map((pokemon) => (
-          <li key={pokemon.name}>
-            <Link to={`/pokemon/${pokemon.name}`}>{pokemon.name}</Link>
-          </li>
-        ))}
-      </ul>
+      {filteredPokemon.length === 0 ? (
+        <p>No pokemon found</p>
+      ) : (
+        <ul aria-label="pokemon list">
+          {filteredPokemon.map((pokemon) => (
+            <li key={pokemon.name}>
+              <Link to={`/pokemon/${pokemon.name}`}>{pokemon.name}</Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
