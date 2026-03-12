@@ -3,6 +3,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PokemonListPage } from "./pages/PokemonListPage";
 import { http, HttpResponse } from "msw";
 import { server } from "@/test/server";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import userEvent from "@testing-library/user-event";
+import { routes } from "@/router"; // we’ll adjust this if needed
 
 function renderWithClient(ui: React.ReactElement) {
   const queryClient = new QueryClient({
@@ -42,4 +45,25 @@ test("renders all pokemon as list items", async () => {
   ).toBeInTheDocument();
 
   expect(await screen.findAllByRole("listitem")).toHaveLength(2);
+});
+
+test("navigates to pokemon detail page when clicked", async () => {
+  const user = userEvent.setup();
+
+  const router = createMemoryRouter(routes, {
+    initialEntries: ["/"],
+  });
+
+  render(
+    <QueryClientProvider client={new QueryClient()}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>,
+  );
+
+  // Wait for list to render
+  const pikachu = await screen.findByText(/pikachu/i);
+
+  await user.click(pikachu);
+
+  expect(router.state.location.pathname).toBe("/pokemon/pikachu");
 });
