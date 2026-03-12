@@ -1,9 +1,19 @@
+import { useMemo, useState } from "react";
 import { usePokemonList } from "../hooks/usePokemonList";
 import { Link } from "react-router-dom";
 
 export function PokemonListPage() {
   const { data, isLoading, error } = usePokemonList();
-  console.log(data, isLoading, error);
+  const [filter, setFilter] = useState("");
+
+  const filteredPokemon = useMemo(
+    () =>
+      data?.results.filter((pokemon) =>
+        pokemon.name.toLowerCase().includes(filter.toLowerCase()),
+      ) ?? [],
+    [data?.results, filter],
+  );
+
   if (isLoading) {
     return <div role="status">Loading...</div>;
   }
@@ -15,8 +25,16 @@ export function PokemonListPage() {
   return (
     <div>
       <h1>Pokemon List</h1>
+
+      <input
+        type="text"
+        placeholder="Filter pokemon"
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+      />
+
       <ul aria-label="pokemon list">
-        {data?.results.map((pokemon) => (
+        {filteredPokemon.map((pokemon) => (
           <li key={pokemon.name}>
             <Link to={`/pokemon/${pokemon.name}`}>{pokemon.name}</Link>
           </li>
