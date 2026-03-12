@@ -1,14 +1,15 @@
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 
 export const handlers = [
-  rest.get("https://pokeapi.co/api/v2/pokemon", (req, res, ctx) => {
-    return res(
-      ctx.json({
-        results: [
-          { name: "pikachu", url: "/pokemon/pikachu" },
-          { name: "bulbasaur", url: "/pokemon/bulbasaur" },
-        ],
-      })
-    );
+  http.get("https://pokeapi.co/api/v2/pokemon", () => {
+    return HttpResponse.json({
+      count: 2,
+      next: null,
+      previous: null,
+      results: [
+        { name: "pikachu", url: "/pokemon/pikachu" },
+        { name: "bulbasaur", url: "/pokemon/bulbasaur" },
+      ],
+    });
   }),
 ];
