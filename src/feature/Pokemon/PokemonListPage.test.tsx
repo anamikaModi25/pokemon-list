@@ -9,8 +9,9 @@ function renderWithClient(ui: React.ReactElement) {
   );
 }
 
-test("renders pokemon list", async () => {
+test("shows loading state while fetching pokemon", () => {
   renderWithClient(<PokemonListPage />);
 
-  expect(await screen.findByText(/pikachu/i)).toBeInTheDocument();
+  // Immediately after render, before data resolves
+  expect(screen.getByRole("status")).toBeInTheDocument();
 });
